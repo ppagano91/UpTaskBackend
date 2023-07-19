@@ -10,6 +10,9 @@ import usuarioRoutes from './routes/usuarioRoutes.js';
 
 const app = express();
 
+// Para procesar y leer el body que viene en formato JSON
+app.use(express.json());
+
 // Configurar dotenv
 dotenv.config();
 

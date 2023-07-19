@@ -1,14 +1,13 @@
 import express from "express";
+import {usuarios, registrar} from "../controllers/usuarioController.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.send("GET API/USUARIOS");
-});
 
-router.post("/", (req, res) => {
-    res.send("POST API/USUARIOS");
-});
+// Autenticación, Registro y Confirmación de Usuarios
+
+router.get("/", usuarios);
+router.post("/", registrar);
 
 router.put("/", (req, res) => {
     res.send("PUT API/USUARIOS");
