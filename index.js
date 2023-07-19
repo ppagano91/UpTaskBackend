@@ -3,6 +3,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectarDB from './config/db.js';
 
+import usuarioRoutes from './routes/usuarioRoutes.js';
+
 // Para dependencias locales si necesito agregar la extensión .js
 
 
@@ -13,6 +15,13 @@ dotenv.config();
 
 // Conectar a la base de datos
 connectarDB();
+
+// Routing
+// app.get('/', (req, res) => {
+//     res.send('API is running...');
+// });
+
+app.use('/api/usuarios',usuarioRoutes);
 
 const PORT = process.env.PORT || 4000;
 
