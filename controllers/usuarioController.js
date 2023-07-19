@@ -28,7 +28,10 @@ const registrar = async (req, res) => {
         res.status(500).json({msg:"Hubo un error"});
         
     }
-
 }
 
-export {usuarios, registrar};
+const autenticar = async (req, res) => {
+    const {email, password} = req.body;
+}
+
+export {usuarios, registrar, autenticar};
