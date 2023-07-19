@@ -1,4 +1,8 @@
-const express = require('express');
+// Para dependencias no necesito agregar la extensión .js
+import express from 'express';
+
+// Para dependencias locales si necesito agregar la extensión .js
+
 
 const app = express();
 
