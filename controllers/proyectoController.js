@@ -1,4 +1,5 @@
 import Proyecto from "../models/Proyecto.js";
+import Tarea from "../models/Tarea.js";
 import mongoose from "mongoose";
 
 const obtenerProyectos = async (req, res) => {
@@ -114,7 +115,21 @@ const agregarColaborador = async (req, res) => {};
 
 const eliminarColaborador = async (req, res) => {};
 
-const obtenerTareas = async (req, res) => {};
+const obtenerTareas = async (req, res) => {
+  const { id } = req.params;
+
+  // Verificar si el id del proyecto es válido
+  const exsiteProyecto = await Proyecto.findById(id);
+  if (!exsiteProyecto) {
+    const error = new Error("Proyecto no encontrado");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  // Tienes que ser creador del proyecto o colaborador para ver las tareas
+  const tareas = await Tarea.find().where("proyecto").equals(id);
+
+  res.json(tareas);
+};
 
 export {
   obtenerProyectos,
