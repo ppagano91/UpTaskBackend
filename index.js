@@ -1,12 +1,12 @@
 // Para dependencias no necesito agregar la extensión .js
-import express from 'express';
-import dotenv from 'dotenv';
-import connectarDB from './config/db.js';
+import express from "express";
+import dotenv from "dotenv";
+import connectarDB from "./config/db.js";
 
-import usuarioRoutes from './routes/usuarioRoutes.js';
+import usuarioRoutes from "./routes/usuarioRoutes.js";
+import proyectoRoutes from "./routes/proyectoRoutes.js";
 
 // Para dependencias locales si necesito agregar la extensión .js
-
 
 const app = express();
 
@@ -24,11 +24,11 @@ connectarDB();
 //     res.send('API is running...');
 // });
 
-app.use('/api/usuarios',usuarioRoutes);
+app.use("/api/usuarios", usuarioRoutes);
+// app.use("/api/proyectos", proyectoRoutes);
 
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    }
-);
+  console.log(`Server is running on port ${PORT}`);
+});
