@@ -44,6 +44,11 @@ usuarioSchema.pre("save", async function(next){
     this.password = await bycrypt.hash(this.password, salt);
 });
 
+// Comprobar password
+usuarioSchema.methods.comprobarPassword = async function(password) {
+    return await bycrypt.compare(password, this.password);
+}
+
 const Usuario = mongoose.model("Usuario", usuarioSchema);
 
 export default Usuario;
