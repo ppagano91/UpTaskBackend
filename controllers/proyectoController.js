@@ -79,7 +79,35 @@ const editarProyecto = async (req, res) => {
   }
 };
 
-const eliminarProyecto = async (req, res) => {};
+const eliminarProyecto = async (req, res) => {
+  const { id } = req.params;
+  let proyecto;
+
+  // Verificar si el id es válido
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    // Obtener proyecto por id
+    proyecto = await Proyecto.findById(id);
+  }
+
+  if (!proyecto) {
+    const error = new Error("Proyecto no encontrado");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  // Comparar el id del creador del proyecto encontrado con el id del usuario autenticado
+  if (proyecto.creador.toString() !== req.usuario._id.toString()) {
+    const error = new Error("Acción no autorizada");
+    return res.status(401).json({ msg: error.message });
+  }
+
+  try {
+    await proyecto.deleteOne();
+    res.json({ msg: "Proyecto eliminado", deleted: proyecto });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Hubo un error" });
+  }
+};
 
 const agregarColaborador = async (req, res) => {};
 
