@@ -7,7 +7,10 @@ import {
   recuperarPassword,
   comprobarToken,
   nuevoPassword,
+  perfil,
 } from "../controllers/usuarioController.js";
+
+import checkAuth from "../middleware/checkAuth.js";
 
 const router = express.Router();
 
@@ -24,6 +27,9 @@ router.route("/recuperar-password/:token").get(comprobarToken).post(nuevoPasswor
 */
 router.get("/recuperar-password/:token", comprobarToken);
 router.post("/recuperar-password/:token", nuevoPassword);
+
+// Proteger ruta /perfil con un middleware
+router.get("/perfil", checkAuth, perfil);
 
 router.put("/", (req, res) => {
   res.send("PUT API/USUARIOS");
