@@ -30,7 +30,14 @@ const obtenerProyecto = async (req, res) => {
     const error = new Error("Acción no autorizada");
     return res.status(401).json({ msg: error.message });
   }
-  res.json(proyecto);
+
+  // Obtener tareas del proyecto
+  const tareas = await Tarea.find().where("proyecto").equals(proyecto._id);
+
+  // Opción 1
+  res.json({ proyecto, tareas });
+
+  // res.json(proyecto);
 };
 
 const nuevoProyecto = async (req, res) => {
@@ -115,6 +122,7 @@ const agregarColaborador = async (req, res) => {};
 
 const eliminarColaborador = async (req, res) => {};
 
+// No es necesario porque en /obtenerProyecto ya se obtienen las tareas
 const obtenerTareas = async (req, res) => {
   const { id } = req.params;
 

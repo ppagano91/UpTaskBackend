@@ -25,6 +25,7 @@ router
   .put(checkAuth, editarProyecto)
   .delete(checkAuth, eliminarProyecto);
 
+// No es necesario porque en /obtenerProyecto ya se obtienen las tareas asociadas al proyecto
 router.get("/tareas/:id", checkAuth, obtenerTareas);
 
 router.post("/agregar-colaborador/:id", checkAuth, agregarColaborador);
