@@ -1,7 +1,32 @@
 import Proyecto from "../models/Proyecto.js";
 import Tarea from "../models/Tarea.js";
 
-const obtenerTarea = async (req, res) => {};
+import mongoose from "mongoose";
+
+const obtenerTarea = async (req, res) => {
+  const { id } = req.params;
+
+  let tarea;
+
+  // Verificar si el id es válido
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    // populate("proyecto") es para que me traiga el proyecto al que pertenece la tarea
+    tarea = await Tarea.findById(id).populate("proyecto");
+  }
+
+  if (!tarea) {
+    const error = new Error("Tarea no encontrada");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  if (tarea.proyecto.creador.toString() !== req.usuario._id.toString()) {
+    const error = new Error("Acción no válida");
+    return res.status(403).json({ msg: error.message });
+  }
+  console.log(tarea);
+
+  res.json(tarea);
+};
 
 const agregarTarea = async (req, res) => {
   const { proyecto } = req.body;
@@ -14,8 +39,8 @@ const agregarTarea = async (req, res) => {
   }
 
   if (exsiteProyecto.creador.toString() !== req.usuario._id.toString()) {
-    const error = new Error("Acción no autorizada");
-    return res.status(404).json({ msg: error.message });
+    const error = new Error("No tienes los permisos para añadir tarea");
+    return res.status(403).json({ msg: error.message });
   }
   try {
     // const tareaAlmacenada = await tarea.save();
