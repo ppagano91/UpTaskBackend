@@ -2,8 +2,11 @@ import Usuario from '../models/usuario.js';
 import generarId from '../helpers/generar.js';
 import generarJWT from '../helpers/generarJWT.js';
 
-const usuarios = (req, res) => {
-    res.json({msg:"GET API/USUARIOS"});
+const usuarios = async (req, res) => {
+    // Encotrar todos los usuarios
+    const usuarios = await Usuario.find();
+    res.json(usuarios);
+    
 }
 
 const registrar = async (req, res) => {
@@ -81,4 +84,35 @@ const confirmar = async (req, res) => {
     }    
 }
 
-export {usuarios, registrar, autenticar,confirmar};
+const recuperarPassword = async (req, res) => {
+    const {email} = req.body;
+
+    const usuario = await Usuario.findOne({email:email})
+    if(!usuario) {
+        const error = new Error("Usuario no existe");
+        return res.status(400).json({msg:error.message});
+    }
+
+    try {
+        usuario.token = generarId();
+        await usuario.save();
+        res.json({msg:"Hemos enviado un email con las instrucciones para recuperar tu password"});
+        
+    } catch (error) {
+        console.log(error)        
+    }
+}
+
+const comprobarToken = async (req, res) => {
+    const {token} = req.params;
+    const tokenValido = await Usuario.findOne({token:token});
+    if(!tokenValido) {
+        const error = new Error("Token no válido");
+        return res.status(403).json({msg:error.message});
+    }
+    else{
+        res.json({msg:"Token válido y el Usuario existe"});
+    }
+}
+
+export {usuarios, registrar, autenticar,confirmar,recuperarPassword, comprobarToken};

@@ -1,5 +1,5 @@
 import express from "express";
-import {usuarios, registrar, autenticar,confirmar} from "../controllers/usuarioController.js";
+import {usuarios, registrar, autenticar,confirmar, recuperarPassword, comprobarToken} from "../controllers/usuarioController.js";
 
 const router = express.Router();
 
@@ -10,6 +10,8 @@ router.get("/", usuarios);
 router.post("/", registrar);
 router.post("/login", autenticar);
 router.get("/confirmar/:token", confirmar);
+router.post("/recuperar-password",recuperarPassword);
+router.get("/recuperar-password/:token",comprobarToken);
 
 
 router.put("/", (req, res) => {
