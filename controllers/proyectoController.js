@@ -10,9 +10,9 @@ const obtenerProyectos = async (req, res) => {
 
 const obtenerProyecto = async (req, res) => {
   const { id } = req.params;
-  // Encontrar proyecto por id
   let proyecto;
 
+  // Verificar si el id es válido
   if (mongoose.Types.ObjectId.isValid(id)) {
     // Obtener proyecto por id
     proyecto = await Proyecto.findById(id);
@@ -22,9 +22,6 @@ const obtenerProyecto = async (req, res) => {
     const error = new Error("Proyecto no encontrado");
     return res.status(404).json({ msg: error.message });
   }
-
-  // console.log(proyecto.creador);
-  // console.log(req.usuario._id);
 
   // Comparar el id del creador del proyecto encontrado con el id del usuario autenticado
   if (proyecto.creador.toString() !== req.usuario._id.toString()) {
@@ -46,7 +43,41 @@ const nuevoProyecto = async (req, res) => {
   }
 };
 
-const editarProyecto = async (req, res) => {};
+const editarProyecto = async (req, res) => {
+  const { id } = req.params;
+  let proyecto;
+
+  // Verificar si el id es válido
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    // Obtener proyecto por id
+    proyecto = await Proyecto.findById(id);
+  }
+
+  if (!proyecto) {
+    const error = new Error("Proyecto no encontrado");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  // Comparar el id del creador del proyecto encontrado con el id del usuario autenticado
+  if (proyecto.creador.toString() !== req.usuario._id.toString()) {
+    const error = new Error("Acción no autorizada");
+    return res.status(401).json({ msg: error.message });
+  }
+
+  // Actualizar proyecto
+  proyecto.nombre = req.body.nombre || proyecto.nombre;
+  proyecto.descripcion = req.body.descripcion || proyecto.descripcion;
+  proyecto.fechaEntrega = req.body.fechaEntrega || proyecto.fechaEntrega;
+  proyecto.cliente = req.body.cliente || proyecto.cliente;
+
+  try {
+    const proyectoActualizado = await proyecto.save();
+    res.json(proyectoActualizado);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Hubo un error" });
+  }
+};
 
 const eliminarProyecto = async (req, res) => {};
 
