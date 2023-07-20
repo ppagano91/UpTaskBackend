@@ -1,5 +1,6 @@
 import Proyecto from "../models/Proyecto.js";
 import mongoose from "mongoose";
+
 const obtenerProyectos = async (req, res) => {
   const proyectos = await Proyecto.find()
     .where("creador")
