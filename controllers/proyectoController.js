@@ -1,9 +1,37 @@
 import Proyecto from "../models/Proyecto.js";
-
-const obtenerProyectos = async (req, res) => {};
+import mongoose from "mongoose";
+const obtenerProyectos = async (req, res) => {
+  const proyectos = await Proyecto.find()
+    .where("creador")
+    .equals(req.usuario._id);
+  // res.json({ msg: "Obtener proyectos" });
+  res.json({ proyectos });
+};
 
 const obtenerProyecto = async (req, res) => {
-  res.json({ msg: "Obtener proyecto" });
+  const { id } = req.params;
+  // Encontrar proyecto por id
+  let proyecto;
+
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    // Obtener proyecto por id
+    proyecto = await Proyecto.findById(id);
+  }
+
+  if (!proyecto) {
+    const error = new Error("Proyecto no encontrado");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  // console.log(proyecto.creador);
+  // console.log(req.usuario._id);
+
+  // Comparar el id del creador del proyecto encontrado con el id del usuario autenticado
+  if (proyecto.creador.toString() !== req.usuario._id.toString()) {
+    const error = new Error("Acción no autorizada");
+    return res.status(401).json({ msg: error.message });
+  }
+  res.json(proyecto);
 };
 
 const nuevoProyecto = async (req, res) => {
