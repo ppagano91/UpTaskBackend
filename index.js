@@ -20,12 +20,12 @@ dotenv.config();
 connectarDB();
 
 // Routing
-// app.get('/', (req, res) => {
-//     res.send('API is running...');
-// });
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
 
 app.use("/api/usuarios", usuarioRoutes);
-// app.use("/api/proyectos", proyectoRoutes);
+app.use("/api/proyectos", proyectoRoutes);
 
 const PORT = process.env.PORT || 4000;
 

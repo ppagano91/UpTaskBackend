@@ -16,8 +16,8 @@ const checkAuth = async (req, res, next) => {
       );
       //   console.log("req.usuario:", req.usuario);
     } catch (error) {
-      res.status(400).json({ msg: "Token no válido" });
       console.log(error);
+      return res.status(400).json({ msg: "Token no válido" });
     }
   }
   if (!token) {
