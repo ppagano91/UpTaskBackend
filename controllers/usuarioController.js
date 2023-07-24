@@ -2,6 +2,8 @@ import Usuario from "../models/usuario.js";
 import generarId from "../helpers/generar.js";
 import generarJWT from "../helpers/generarJWT.js";
 
+import { emailRegistro } from "../helpers/email.js";
+
 const usuarios = async (req, res) => {
   // Encotrar todos los usuarios
   const usuarios = await Usuario.find();
@@ -22,13 +24,22 @@ const registrar = async (req, res) => {
   try {
     const usuario = new Usuario(req.body);
     usuario.token = generarId();
-    const usuarioCreado = await usuario.save();
-    
+
+    // const usuarioCreado = await usuario.save();
+    await usuario.save();
+
+    // Enviar email de confirmación
+    emailRegistro({
+      email: usuario.email,
+      nombre: usuario.nombre,
+      token: usuario.token,
+    });
+
     // res.json(usuarioCreado);
-    res.json({ msg: "Usuario Creado Correctamente.\nRevisa tu Email para confirmar tu cuenta" })
-
+    res.json({
+      msg: "Usuario Creado Correctamente.\nRevisa tu Email para confirmar tu cuenta",
+    });
   } catch (error) {
-
     console.log(error);
     res.status(500).json({ msg: "Hubo un error" });
   }
@@ -76,7 +87,7 @@ const confirmar = async (req, res) => {
     usuarioConfirmar.confirmado = true;
     usuarioConfirmar.token = "";
     await usuarioConfirmar.save();
-    res.json({ msg: "Usuario confirmado" });
+    res.json({ msg: "Usuario confirmado correctamente" });
   } catch (error) {
     console.log(error);
   }
