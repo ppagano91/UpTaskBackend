@@ -2,7 +2,7 @@ import Usuario from "../models/usuario.js";
 import generarId from "../helpers/generar.js";
 import generarJWT from "../helpers/generarJWT.js";
 
-import { emailRegistro } from "../helpers/email.js";
+import { emailRegistro, emailRecuperarPassword } from "../helpers/email.js";
 
 const usuarios = async (req, res) => {
   // Encotrar todos los usuarios
@@ -105,6 +105,14 @@ const recuperarPassword = async (req, res) => {
   try {
     usuario.token = generarId();
     await usuario.save();
+
+    // Enviar email de recuperación
+    emailRecuperarPassword({
+      email: usuario.email,
+      nombre: usuario.nombre,
+      token: usuario.token,
+    });
+
     res.json({
       msg: "Hemos enviado un email con las instrucciones para recuperar tu password",
     });
