@@ -25,7 +25,7 @@ connectarDB();
 
 // Configurar CORS
 
-const whiteList = ["http://localhost:5173","http://localhost:5174"];  // Lista de dominios permitidos
+const whiteList = [process.env.FRONTEND_URL,process.env.FRONTEND_URL2];  // Lista de dominios permitidos
 
 const corsOptions = {
   origin: (origin, callback) => {
