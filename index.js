@@ -25,16 +25,14 @@ connectarDB();
 
 // Configurar CORS
 
-const whiteList = [process.env.FRONTEND_URL,process.env.FRONTEND_URL2];  // Lista de dominios permitidos
+const whiteList = [process.env.FRONTEND_URL, process.env.FRONTEND_URL2]; // Lista de dominios permitidos
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // console.log(origin)
     if (whiteList.includes(origin)) {
       // Puede consultar la API
       callback(null, true);
-    }
-    else {
+    } else {
       // No puede consultar la API
       callback(new Error("No permitido por CORS"));
     }
@@ -42,7 +40,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-    
+
 // Routing
 app.get("/", (req, res) => {
   res.send("API is running...");

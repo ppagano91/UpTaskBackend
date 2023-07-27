@@ -1,7 +1,6 @@
 import nodemailer from "nodemailer";
 
 export const emailRegistro = async (datos) => {
-  // console.log(datos)
   const { nombre, email, token } = datos;
 
   const transport = nodemailer.createTransport({
@@ -29,7 +28,6 @@ export const emailRegistro = async (datos) => {
 };
 
 export const emailRecuperarPassword = async (datos) => {
-  // console.log(datos)
   const { nombre, email, token } = datos;
 
   const transport = nodemailer.createTransport({
