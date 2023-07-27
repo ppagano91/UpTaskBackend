@@ -5,7 +5,8 @@ import mongoose from "mongoose";
 const obtenerProyectos = async (req, res) => {
   const proyectos = await Proyecto.find()
     .where("creador")
-    .equals(req.usuario._id);
+    .equals(req.usuario._id)
+    .select("-tareas");
   // res.json({ msg: "Obtener proyectos" });
   res.json({ proyectos });
 };
@@ -17,7 +18,7 @@ const obtenerProyecto = async (req, res) => {
   // Verificar si el id es válido
   if (mongoose.Types.ObjectId.isValid(id)) {
     // Obtener proyecto por id
-    proyecto = await Proyecto.findById(id);
+    proyecto = await Proyecto.findById(id).populate("tareas");
   }
 
   if (!proyecto) {
