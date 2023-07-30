@@ -37,5 +37,23 @@ const tareaSchema = mongoose.Schema(
   }
 );
 
+// Middleware to remove the task ID from associated projects when a task is deleted
+tareaSchema.pre("remove", async function (next) {
+  const projectId = this.proyecto;
+  try {
+    // Find the associated project and remove the task ID from its 'tareas' array
+    const project = await mongoose.model("Proyecto").findById(projectId);
+    if (project) {
+      project.tareas = project.tareas.filter(
+        (tareaId) => tareaId.toString() !== this._id.toString()
+      );
+      await project.save();
+    }
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
 const Tarea = mongoose.model("Tarea", tareaSchema);
 export default Tarea;
