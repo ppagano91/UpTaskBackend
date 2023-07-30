@@ -5,6 +5,7 @@ import {
   nuevoProyecto,
   editarProyecto,
   eliminarProyecto,
+  buscarColaborador,
   agregarColaborador,
   eliminarColaborador,
   obtenerTareas,
@@ -28,7 +29,8 @@ router
 // No es necesario porque en /obtenerProyecto ya se obtienen las tareas asociadas al proyecto
 router.get("/tareas/:id", checkAuth, obtenerTareas);
 
-router.post("/agregar-colaborador/:id", checkAuth, agregarColaborador);
-router.post("/eliminar-colaborador/:id", checkAuth, eliminarColaborador);
+router.post("/colaboradores", checkAuth, buscarColaborador);
+router.post("/colaboradores/:id", checkAuth, agregarColaborador);
+router.delete("/colaboradores/:id", checkAuth, eliminarColaborador);
 
 export default router;

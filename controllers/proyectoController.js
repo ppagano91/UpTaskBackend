@@ -1,5 +1,6 @@
 import Proyecto from "../models/Proyecto.js";
 import Tarea from "../models/Tarea.js";
+import Usuario from "../models/usuario.js";
 import mongoose from "mongoose";
 
 const obtenerProyectos = async (req, res) => {
@@ -120,9 +121,28 @@ const eliminarProyecto = async (req, res) => {
   }
 };
 
-const agregarColaborador = async (req, res) => {};
+const buscarColaborador = async (req, res) => {
+  const { email } = req.body;
 
-const eliminarColaborador = async (req, res) => {};
+  const usuario = await Usuario.findOne({ email }).select(
+    "-confirmado -password -token -updatedAt -createdAt -__v"
+  );
+
+  if (!usuario) {
+    const error = new Error("Usuario no encontrado");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  res.json(usuario);
+};
+
+const agregarColaborador = async (req, res) => {
+  res.json({ msg: "Agregar colaborador" });
+};
+
+const eliminarColaborador = async (req, res) => {
+  res.json({ msg: "Eliminar colaborador" });
+};
 
 // No es necesario porque en /obtenerProyecto ya se obtienen las tareas
 const obtenerTareas = async (req, res) => {
@@ -147,6 +167,7 @@ export {
   nuevoProyecto,
   editarProyecto,
   eliminarProyecto,
+  buscarColaborador,
   agregarColaborador,
   eliminarColaborador,
   obtenerTareas,
