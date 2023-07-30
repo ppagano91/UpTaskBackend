@@ -137,7 +137,50 @@ const buscarColaborador = async (req, res) => {
 };
 
 const agregarColaborador = async (req, res) => {
-  res.json({ msg: "Agregar colaborador" });
+  const proyecto = await Proyecto.findById(req.params.id);
+
+  if (!proyecto) {
+    const error = new Error("Proyecto no encontrado");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  // Comparar el id del creador del proyecto encontrado con el id del usuario autenticado
+  if (proyecto.creador.toString() !== req.usuario._id.toString()) {
+    const error = new Error("Acción no autorizada");
+    return res.status(401).json({ msg: error.message });
+  }
+
+  const { email } = req.body;
+
+  const usuario = await Usuario.findOne({ email }).select(
+    "-confirmado -password -token -updatedAt -createdAt -__v"
+  );
+
+  if (!usuario) {
+    const error = new Error("Usuario no encontrado");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  // Verificar que el colaborador no es el admin del proyecto
+  if (usuario._id.toString() === proyecto.creador.toString()) {
+    const error = new Error("El creador del proyecto no puede ser colaborador");
+    return res.status(400).json({ msg: error.message });
+  }
+
+  // Verificar que el colaborador no esté ya en el proyecto
+  if (proyecto.colaboradores.includes(usuario._id)) {
+    const error = new Error("El usuario ya es colaborador del proyecto");
+    return res.status(400).json({ msg: error.message });
+  }
+
+  // Agregar colaborador al proyecto
+  proyecto.colaboradores.push(usuario._id);
+
+  await proyecto.save();
+
+  console.log(req.body);
+
+  res.json({ msg: "Colaborador Agregado Correctamente" });
 };
 
 const eliminarColaborador = async (req, res) => {
