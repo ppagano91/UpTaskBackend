@@ -31,6 +31,9 @@ router.get("/tareas/:id", checkAuth, obtenerTareas);
 
 router.post("/colaboradores", checkAuth, buscarColaborador);
 router.post("/colaboradores/:id", checkAuth, agregarColaborador);
-router.delete("/colaboradores/:id", checkAuth, eliminarColaborador);
+
+// Con delete no puedo enviar un body
+// router.delete("/colaboradores/:id", checkAuth, eliminarColaborador);
+router.post("/eliminar-colaborador/:id", checkAuth, eliminarColaborador);
 
 export default router;

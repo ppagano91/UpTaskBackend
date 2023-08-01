@@ -19,7 +19,7 @@ const obtenerProyecto = async (req, res) => {
   // Verificar si el id es válido
   if (mongoose.Types.ObjectId.isValid(id)) {
     // Obtener proyecto por id
-    proyecto = await Proyecto.findById(id).populate("tareas");
+    proyecto = await Proyecto.findById(id).populate("tareas").populate("colaboradores","nombre email")
   }
 
   if (!proyecto) {
@@ -175,17 +175,35 @@ const agregarColaborador = async (req, res) => {
 
   // Agregar colaborador al proyecto
   proyecto.colaboradores.push(usuario._id);
-
   await proyecto.save();
-
-  console.log(req.body);
 
   res.json({ msg: "Colaborador Agregado Correctamente" });
 };
 
 const eliminarColaborador = async (req, res) => {
-  res.json({ msg: "Eliminar colaborador" });
+  const proyecto = await Proyecto.findById(req.params.id);
+
+  // Verificar si el id es válido
+  if (!proyecto) {
+    const error = new Error("Proyecto no encontrado");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  // Comparar el id del creador del proyecto encontrado con el id del usuario autenticado
+  if (proyecto.creador.toString() !== req.usuario._id.toString()) {
+    const error = new Error("Acción no autorizada");
+    return res.status(401).json({ msg: error.message });
+  }
+
+  // Agregar colaborador al proyecto
+  proyecto.colaboradores.pull(req.body.id);
+  console.log(proyecto)
+  await proyecto.save();
+
+
+  res.json({ msg: "Colaborador Eliminado Correctamente" });
 };
+
 
 // No es necesario porque en /obtenerProyecto ya se obtienen las tareas
 const obtenerTareas = async (req, res) => {
@@ -203,6 +221,7 @@ const obtenerTareas = async (req, res) => {
 
   res.json(tareas);
 };
+
 
 export {
   obtenerProyectos,
