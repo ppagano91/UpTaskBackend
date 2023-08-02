@@ -110,7 +110,11 @@ const eliminarTarea = async (req, res) => {
   }
 
   try {
-    await tarea.deleteOne();
+    const proyecto = await Proyecto.findById(tarea.proyecto);
+    proyecto.tareas = proyecto.pull(tarea._id);
+    
+    Promise.allSettled([proyecto.save(),await tarea.deleteOne()]);
+
     res.json({ msg: "Tarea Eliminada" });
   } catch (error) {
     console.log(error);
