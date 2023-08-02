@@ -4,9 +4,11 @@ import Usuario from "../models/usuario.js";
 import mongoose from "mongoose";
 
 const obtenerProyectos = async (req, res) => {
-  const proyectos = await Proyecto.find()
-    .where("creador")
-    .equals(req.usuario._id)
+  const proyectos = await Proyecto.find({
+    '$or': [
+      { creador: {$in: req.usuario} },
+      { colaboradores: {$in: req.usuario} }],
+  })
     .select("-tareas");
   // res.json({ msg: "Obtener proyectos" });
   res.json({ proyectos });
