@@ -138,7 +138,7 @@ const cambiarEstadoTarea = async (req, res) => {
     return res.status(404).json({ msg: error.message });
   }
 
-  if (tarea.proyecto.creador.toString() !== req.usuario._id.toString() && !tarea.colaboradores.some(colaborador => colaborador._id.toString() === req.usuario._id.toString())){
+  if (tarea.proyecto.creador.toString() !== req.usuario._id.toString() && !tarea.proyecto.colaboradores.some(colaborador => colaborador._id.toString() === req.usuario._id.toString())){
     const error = new Error("Acción no válida");
     return res.status(403).json({ msg: error.message });
   }
