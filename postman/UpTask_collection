@@ -1,0 +1,618 @@
+{
+	"info": {
+		"_postman_id": "c087a4f5-7eec-425e-b198-100be48243d6",
+		"name": "UpTask_MERN",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27251589"
+	},
+	"item": [
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Ver Usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registro Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Patricio\",\r\n    \"password\": \"123456\",\r\n    \"email\": \"patricio.pagano@mail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/usuarios",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autenticar Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"123456\",\r\n    \"email\": \"patricio.pagano@mail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/usuarios/login",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT api/usuarios",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE api/usuarios",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirmar cuenta vía Token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/usuarios/confirmar/rmb1v3cdbqg1h5pnc67o",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"usuarios",
+								"confirmar",
+								"rmb1v3cdbqg1h5pnc67o"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Solicitar un Token para cambiar Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"ciro@mail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/usuarios/recuperar-password",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"usuarios",
+								"recuperar-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validar el Token para cambiar el Password",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"patricio@patricio.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/usuarios/recuperar-password/4n27pgrore1h5ppvi8s",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"usuarios",
+								"recuperar-password",
+								"4n27pgrore1h5ppvi8s"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Almacenar el nuevo Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/usuarios/recuperar-password/4n27pgrore1h5ppvi8s",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"usuarios",
+								"recuperar-password",
+								"4n27pgrore1h5ppvi8s"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Perfil Usuario",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/usuarios/perfil",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"usuarios",
+								"perfil"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Proyectos",
+			"item": [
+				{
+					"name": "Crear Nuevo Proyecto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Diseño de App\",\r\n    \"descripcion\": \"Diseñar nueva App con Node y React Native\",\r\n    \"cliente\": \"Ciro\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/proyectos",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"proyectos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Proyectos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/proyectos",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"proyectos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Proyecto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/proyectos/64b9527b470c8400b15175ae",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"proyectos",
+								"64b9527b470c8400b15175ae"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Proyecto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\":\"API CABA\",\r\n    \"descripcion\":\"Crear una API para GCBA utilizando Flask, PostgreSQL y ReactJs\",\r\n    \"cliente\":\"GCBA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/proyectos/64b95206f1bc38d20286ab0c",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"proyectos",
+								"64b95206f1bc38d20286ab0c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Proyecto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\":\"API CABA\",\r\n    \"descripcion\":\"Crear una API para GCBA utilizando Flask, PostgreSQL y ReactJs\",\r\n    \"cliente\":\"GCBA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/proyectos/64b97a74446df5ffbd58f803",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"proyectos",
+								"64b97a74446df5ffbd58f803"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tareas",
+			"item": [
+				{
+					"name": "Agregar Tarea",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Elegir Tipografía\",\r\n    \"descripcion\": \"Elegir tipografía acordes a lo visto en la reunión\",\r\n    \"prioridad\": \"Alta\",\r\n    \"proyecto\":\"64b9527b470c8400b15175ae\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/tareas",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"tareas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Tarea por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/tareas/64b9a8a37391424ee54dbb5b",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"tareas",
+								"64b9a8a37391424ee54dbb5b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Tareas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/proyectos/tareas/64b9527b470c8400b15175ae",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"proyectos",
+								"tareas",
+								"64b9527b470c8400b15175ae"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Tarea por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"descripcion\": \"Elegir tipografía de Google Fonts\",\r\n    \"prioridad\": \"Media\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/tareas/64b9a8a37391424ee54dbb5b",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"tareas",
+								"64b9a8a37391424ee54dbb5b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Tarea por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/tareas/64b9ba108f47e5819032f6e9",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"tareas",
+								"64b9ba108f47e5819032f6e9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
