@@ -31,6 +31,10 @@ const tareaSchema = mongoose.Schema(
       ref: "Proyecto",
       required: true,
     },
+    completado: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Usuario",
+    },
   },
   {
     timestamps: true,
@@ -38,6 +42,7 @@ const tareaSchema = mongoose.Schema(
 );
 
 // Middleware to remove the task ID from associated projects when a task is deleted
+/*
 tareaSchema.pre("remove", async function (next) {
   const projectId = this.proyecto;
   try {
@@ -54,6 +59,6 @@ tareaSchema.pre("remove", async function (next) {
     next(err);
   }
 });
-
+*/
 const Tarea = mongoose.model("Tarea", tareaSchema);
 export default Tarea;

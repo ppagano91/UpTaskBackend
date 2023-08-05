@@ -10,7 +10,7 @@ const obtenerTarea = async (req, res) => {
   // Verificar si el id es válido
   if (mongoose.Types.ObjectId.isValid(id)) {
     // populate("proyecto") es para que me traiga el proyecto al que pertenece la tarea
-    tarea = await Tarea.findById(id).populate("proyecto");
+    tarea = await Tarea.findById(id).populate("proyecto", "nombre");
   }
 
   if (!tarea) {
@@ -112,8 +112,8 @@ const eliminarTarea = async (req, res) => {
   try {
     const proyecto = await Proyecto.findById(tarea.proyecto);
     proyecto.tareas = proyecto.pull(tarea._id);
-    
-    Promise.allSettled([proyecto.save(),await tarea.deleteOne()]);
+
+    Promise.allSettled([proyecto.save(), await tarea.deleteOne()]);
 
     res.json({ msg: "Tarea Eliminada" });
   } catch (error) {
@@ -138,16 +138,27 @@ const cambiarEstadoTarea = async (req, res) => {
     return res.status(404).json({ msg: error.message });
   }
 
-  if (tarea.proyecto.creador.toString() !== req.usuario._id.toString() && !tarea.proyecto.colaboradores.some(colaborador => colaborador._id.toString() === req.usuario._id.toString())){
+  if (
+    tarea.proyecto.creador.toString() !== req.usuario._id.toString() &&
+    !tarea.proyecto.colaboradores.some(
+      (colaborador) => colaborador._id.toString() === req.usuario._id.toString()
+    )
+  ) {
     const error = new Error("Acción no válida");
     return res.status(403).json({ msg: error.message });
   }
 
   tarea.estado = !tarea.estado;
+  tarea.completado = req.usuario._id;
 
   await tarea.save();
+  //res.json(tarea);
 
-  res.json(tarea);
+  const tareaAlmacenada = await Tarea.findById(id)
+    .populate("proyecto")
+    .populate("completado");
+
+  res.json(tareaAlmacenada);
 };
 
 export {
