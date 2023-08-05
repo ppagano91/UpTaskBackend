@@ -5,11 +5,11 @@ import mongoose from "mongoose";
 
 const obtenerProyectos = async (req, res) => {
   const proyectos = await Proyecto.find({
-    '$or': [
-      { creador: {$in: req.usuario} },
-      { colaboradores: {$in: req.usuario} }],
-  })
-    .select("-tareas");
+    $or: [
+      { creador: { $in: req.usuario } },
+      { colaboradores: { $in: req.usuario } },
+    ],
+  }).select("-tareas");
   // res.json({ msg: "Obtener proyectos" });
   res.json({ proyectos });
 };
@@ -21,7 +21,12 @@ const obtenerProyecto = async (req, res) => {
   // Verificar si el id es válido
   if (mongoose.Types.ObjectId.isValid(id)) {
     // Obtener proyecto por id
-    proyecto = await Proyecto.findById(id).populate("tareas").populate("colaboradores","nombre email")
+    proyecto = await Proyecto.findById(id)
+      .populate({
+        path: "tareas",
+        populate: { path: "completado", select: "nombre" },
+      })
+      .populate("colaboradores", "nombre email");
   }
 
   if (!proyecto) {
@@ -30,7 +35,12 @@ const obtenerProyecto = async (req, res) => {
   }
 
   // Comparar el id del creador del proyecto encontrado con el id del usuario autenticado o si el usuario autenticado es colaborador del proyecto
-  if (proyecto.creador.toString() !== req.usuario._id.toString() && !proyecto.colaboradores.some(colaborador => colaborador._id.toString() === req.usuario._id.toString())) {
+  if (
+    proyecto.creador.toString() !== req.usuario._id.toString() &&
+    !proyecto.colaboradores.some(
+      (colaborador) => colaborador._id.toString() === req.usuario._id.toString()
+    )
+  ) {
     const error = new Error("Acción no autorizada");
     return res.status(401).json({ msg: error.message });
   }
@@ -199,13 +209,11 @@ const eliminarColaborador = async (req, res) => {
 
   // Agregar colaborador al proyecto
   proyecto.colaboradores.pull(req.body.id);
-  console.log(proyecto)
+  console.log(proyecto);
   await proyecto.save();
-
 
   res.json({ msg: "Colaborador Eliminado Correctamente" });
 };
-
 
 // No es necesario porque en /obtenerProyecto ya se obtienen las tareas
 const obtenerTareas = async (req, res) => {
@@ -223,7 +231,6 @@ const obtenerTareas = async (req, res) => {
 
   res.json(tareas);
 };
-
 
 export {
   obtenerProyectos,
