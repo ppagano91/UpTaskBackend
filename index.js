@@ -70,11 +70,12 @@ io.on("connection", (socket) => {
   console.log("Conectado a socket.io: ", socket.id);
 
   // Definir los eventos de socket io
-  socket.on("prueba", () => {
-    console.log("Prueba: Recibido desde el cliente");
+  socket.on("abrir-proyecto", (id) => {
+    socket.join(id);
 
-    // Emitir desde el servidor
-    socket.emit("respuesta");
+    socket
+      .to(id)
+      .emit("respuesta", { respuesta: "respuesta desde el servidor" });
   });
 
   // socket.on("disconnect", () => {
