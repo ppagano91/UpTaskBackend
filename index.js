@@ -72,6 +72,9 @@ io.on("connection", (socket) => {
   // Definir los eventos de socket io
   socket.on("prueba", () => {
     console.log("Prueba: Recibido desde el cliente");
+
+    // Emitir desde el servidor
+    socket.emit("respuesta");
   });
 
   // socket.on("disconnect", () => {
