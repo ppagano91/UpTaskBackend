@@ -67,9 +67,14 @@ const io = new Server(servidor, {
 });
 
 io.on("connection", (socket) => {
-  console.log("Nuevo cliente conectado: ", socket.id);
-});
+  console.log("Conectado a socket.io: ", socket.id);
 
-socket.on("disconnect", () => {
-  console.log("Cliente desconectado: ", socket.id);
+  // Definir los eventos de socket io
+  socket.on("prueba", () => {
+    console.log("Prueba: Recibido desde el cliente");
+  });
+
+  // socket.on("disconnect", () => {
+  //   console.log("Cliente desconectado: ", socket.id);
+  // });
 });
