@@ -67,9 +67,38 @@ const io = new Server(servidor, {
 });
 
 io.on("connection", (socket) => {
-  console.log("Nuevo cliente conectado: ", socket.id);
-});
+  console.log("Conectado a socket.io: ", socket.id);
 
-socket.on("disconnect", () => {
-  console.log("Cliente desconectado: ", socket.id);
+  // Definir los eventos de socket io
+  socket.on("abrir-proyecto", (id) => {
+    socket.join(id);
+
+    socket
+      .to(id)
+      .emit("respuesta", { respuesta: "respuesta desde el servidor" });
+  });
+
+  socket.on("nueva-tarea", (tarea) => {
+    const proyecto = tarea.proyecto;
+    socket.to(proyecto).emit("tarea-agregada", tarea);
+  });
+
+  socket.on("eliminar-tarea", (tarea) => {
+    const proyecto = tarea.proyecto;
+    socket.to(proyecto).emit("tarea-eliminada", tarea);
+  });
+
+  socket.on("actualizar-tarea", (tarea) => {
+    const proyecto = tarea.proyecto._id;
+    socket.to(proyecto).emit("tarea-actualizada", tarea);
+  });
+
+  socket.on("cambiar-estado", (tarea) => {
+    const proyecto = tarea.proyecto._id;
+    socket.to(proyecto).emit("nuevo-estado", tarea);
+  });
+
+  // socket.on("disconnect", () => {
+  //   console.log("Cliente desconectado: ", socket.id);
+  // });
 });
