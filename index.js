@@ -83,6 +83,11 @@ io.on("connection", (socket) => {
     socket.to(proyecto).emit("tarea-agregada", tarea);
   });
 
+  socket.on("eliminar-tarea", (tarea) => {
+    const proyecto = tarea.proyecto;
+    socket.to(proyecto).emit("tarea-eliminada", tarea);
+  });
+
   // socket.on("disconnect", () => {
   //   console.log("Cliente desconectado: ", socket.id);
   // });
