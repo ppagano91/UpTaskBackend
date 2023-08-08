@@ -51,7 +51,7 @@ const agregarTarea = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-  console.log(exsiteProyecto);
+  // console.log(exsiteProyecto);
 };
 
 const actualizarTarea = async (req, res) => {
@@ -111,9 +111,9 @@ const eliminarTarea = async (req, res) => {
 
   try {
     const proyecto = await Proyecto.findById(tarea.proyecto);
-    proyecto.tareas = proyecto.pull(tarea._id);
+    proyecto.tareas.pull(tarea._id);
 
-    Promise.allSettled([proyecto.save(), await tarea.deleteOne()]);
+    Promise.allSettled([await proyecto.save(), await tarea.deleteOne()]);
 
     res.json({ msg: "Tarea Eliminada" });
   } catch (error) {

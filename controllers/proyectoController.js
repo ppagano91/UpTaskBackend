@@ -209,7 +209,7 @@ const eliminarColaborador = async (req, res) => {
 
   // Agregar colaborador al proyecto
   proyecto.colaboradores.pull(req.body.id);
-  console.log(proyecto);
+  // console.log(proyecto);
   await proyecto.save();
 
   res.json({ msg: "Colaborador Eliminado Correctamente" });
