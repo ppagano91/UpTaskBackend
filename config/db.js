@@ -7,7 +7,8 @@ const connectarDB = async () => {
     //     useNewUrlParser: true,
     //     useCreateIndex: true
     // });
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
+    // const conn = await mongoose.connect(process.env.MONGO_URI, {
+    const conn = await mongoose.connect(process.env.MONGO_URI_LOCAL, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     });
